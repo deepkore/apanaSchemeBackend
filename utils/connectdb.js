@@ -1,14 +1,14 @@
-const mongoose = require("mongoose")
-const url = process.env.MONGO_DB_CONNECTION_STRING
-const connect = mongoose.connect(url, {
+const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@apanscheme.bbxxvsc.mongodb.net/?retryWrites=true&w=majority`;
+
+mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
+    // useCreateIndex: true,
+}).then(db => {
+    console.log("connected to db")
 })
-connect
-    .then(db => {
-        console.log("connected to db")
-    })
     .catch(err => {
         console.log(err)
     })
