@@ -15,7 +15,7 @@ require("./src/authen/strategies/JWTStrategy")
 require("./src/authen/strategies/localStrategy")
 require("./src/authen/authenticate")
 
-const userRouter = require(".src/user/routes/Routes")
+const userRouter = require("./src/user/routes/Routes")
 
 
 const app = express()

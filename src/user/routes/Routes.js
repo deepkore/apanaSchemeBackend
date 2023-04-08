@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 const User = require("../models/user")
 
-const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../authenticate")
+const { getToken, COOKIE_OPTIONS, getRefreshToken } = require("../../authen/authenticate")
 
 router.post("/signup", (req, res, next) => {
     // Verify that first name is not empty
