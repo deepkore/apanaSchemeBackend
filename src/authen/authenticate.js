@@ -25,4 +25,4 @@ exports.getRefreshToken = user => {
     return refreshToken
 }
 
-exports.verifyUser = passport.authenticate("jwt", { session: false })
+exports.verifyUser = passport.authenticate("jwt", { session: false });

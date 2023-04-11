@@ -16,10 +16,12 @@ require("./src/authen/strategies/localStrategy")
 require("./src/authen/authenticate")
 
 const userRouter = require("./src/user/routes/Routes")
+const session = require("express-session")
 
 
 const app = express()
-
+app.use(session({ secret: process.env.SESSION_KEY , resave: true,
+    saveUninitialized: true}));
 app.use(bodyParser.json())
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
@@ -29,8 +31,10 @@ const whitelist = process.env.WHITELISTED_DOMAINS
     ? process.env.WHITELISTED_DOMAINS.split(",")
     : []
 
+    
 const corsOptions = {
     origin: function (origin, callback) {
+        
         if (!origin || whitelist.indexOf(origin) !== -1) {
             callback(null, true)
         } else {
@@ -44,7 +48,7 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 app.use(passport.initialize())
-
+app.use(passport.session());
 app.use("/users", userRouter)
 
 
