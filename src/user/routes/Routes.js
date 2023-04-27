@@ -12,7 +12,7 @@ const {
 
 router.post("/signup", (req, res, next) => {
   // Verify that first name is not empty
-  const firstName = req.body.firstName;
+  const Name = req.body.Name;
   const nameMatch = req.body.email.match(/^([^@]*)@/);
   const username = nameMatch ? nameMatch[1] : null;
 
@@ -28,9 +28,8 @@ router.post("/signup", (req, res, next) => {
     new User({
       username: username,
       email: req.body.email,
-      firstName: firstName,
+      Name: Name,
       phone: req.body.phone,
-      lastName: req.body.lastName,
     }),
     req.body.password,
     (err, user) => {

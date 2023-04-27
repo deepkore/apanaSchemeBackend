@@ -12,17 +12,11 @@ const Session = new Schema({
 });
 
 const User = new Schema({
-  firstName: {
+  Name: {
     type: String,
     default: "",
     required: true,
-    message: "enter first name",
-  },
-  lastName: {
-    type: String,
-    default: "",
-    required: true,
-    message: "enter last name",
+    message: "enter name",
   },
   email: {
     type: String,
