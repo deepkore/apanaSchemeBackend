@@ -74,12 +74,14 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
           res.status(200).json({ success: true, token });
         })
         .catch((err) => {
-          res.status(500).json({ success: false, err: err });
+          res.status(500).json({ message: "token not refreshed ", err: err });
         });
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ success: false, err: err });
+      res
+        .status(500)
+        .json({ status: "cannot find user name sign up", err: err });
     });
 });
 
