@@ -19,7 +19,7 @@ router.post("/signup", (req, res, next) => {
         })
     } else {
         User.register(
-            new User({ username: username , email : req.body.email, firstName : name,phone : req.body.phone}),
+            new User({ username: username , email : req.body.email, firstName : name,phone : req.body.phoneNumber}),
             req.body.password,
             (err, user) => {
                 console.log(err);
