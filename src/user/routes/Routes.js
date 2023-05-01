@@ -52,53 +52,7 @@ router.post("/signup", (req, res, next) => {
 })
 
 
-
-
-  console.log(req.body);
-  // if (!firstName) {
-  //   res.statusCode = 500;
-  //   res.send({
-  //     name: "FirstNameError",
-  //     message: "The first name is required",
-  //   });
-  // } else {
-  User.register(
-    new User({
-      username: username,
-      email: req.body.email,
-      Name: Name,
-      phone: req.body.phone,
-    }),
-    req.body.password,
-    (err, user) => {
-      console.log(err);
-      console.log(user);
-      if (err) {
-        res.status(500).json({ status: "not registered", err: err });
-      } else {
-        //    user.firstName = firstName;
-        //  user.lastName = req.body.lastName;
-        console.log("user register");
-        const token = getToken({ _id: user._id });
-        const refreshToken = getRefreshToken({ _id: user._id });
-        user.refreshToken.push({ refreshToken });
-        user.save().then((user, err) => {
-          if (err) {
-            res
-              .status(500)
-              .json({ status: "not saved successfully", err: err });
-          } else {
-            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-            res.status(200).json({ success: true, token: token });
-          }
-          //  res.redirect("/forms");
-        });
-      }
-    }
-  );
-});
-
-router.post("/login", passport.authenticate("local"), (req, res, next) => {
+  router.post("/login", passport.authenticate("local"), (req, res, next) => {
   console.log(req.body);
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
