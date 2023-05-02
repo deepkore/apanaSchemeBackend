@@ -73,6 +73,7 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
         .then((user) => {
           res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
           res.status(200).json({ success: true, token });
+          //res.s
         })
         .catch((err) => {
           res.status(500).json({ message: "token not refreshed ", err: err });
