@@ -55,49 +55,6 @@ router.post("/signup", (req, res, next) => {
     );
   }
 });
-// Verify that first name is not empty
-const name = req.body.name;
-var nameMatch = req.body.email.match(/^([^@]*)@/);
-var username = nameMatch ? nameMatch[1] : null;
-console.log(req.body);
-if (!name) {
-  res.statusCode = 500;
-  res.send({
-    name: "FirstNameError",
-    message: "The first name is required",
-  });
-} else {
-  User.register(
-    new User({
-      username: username,
-      email: req.body.email,
-      firstName: name,
-      phone: req.body.phoneNumber,
-    }),
-    req.body.password,
-    (err, user) => {
-      console.log(err);
-      console.log(user);
-      if (err) {
-        res.status(500).json({ success: false, err: err });
-      } else {
-        user.firstName = name;
-        user.lastName = "";
-        const token = getToken({ _id: user._id });
-        const refreshToken = getRefreshToken({ _id: user._id });
-        user.refreshToken.push({ refreshToken });
-        user.save().then((user, err) => {
-          if (err) {
-            res.status(500).json({ success: false, err: err });
-          } else {
-            res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-            res.status(200).json({ success: true, token: token });
-          }
-        });
-      }
-    }
-  );
-}
 
 router.post("/login", passport.authenticate("local"), (req, res, next) => {
   console.log(req.body);
@@ -113,14 +70,12 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
           res.status(200).json({ success: true, token });
         })
         .catch((err) => {
-          res.status(500).json({ message: "token not refreshed ", err: err });
+          res.status(500).json({ success: false, err: err });
         });
     })
     .catch((err) => {
       console.log(err);
-      res
-        .status(500)
-        .json({ status: "cannot find user name sign up", err: err });
+      res.status(500).json({ success: false, err: err });
     });
 });
 
