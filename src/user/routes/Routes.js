@@ -12,9 +12,16 @@ const {
 
 router.post("/signup", (req, res, next) => {
   // Verify that first name is not empty
+<<<<<<< HEAD
   const name = req.body.name;
   var nameMatch = req.body.email.match(/^([^@]*)@/);
   var username = nameMatch ? nameMatch[1] : null;
+=======
+  const Name = req.body.Name;
+  const nameMatch = req.body.email.match(/^([^@]*)@/);
+  const username = nameMatch ? nameMatch[1] : null;
+
+>>>>>>> parent of f8cbab5 (Merge pull request #2 from deepkore/filter)
   console.log(req.body);
   if (!name) {
     res.statusCode = 500;
