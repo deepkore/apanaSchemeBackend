@@ -34,7 +34,7 @@ router.post("/signup", (req, res, next) => {
     new User({
       username: username,
       email: req.body.email,
-      Name: Name,
+      name: name,
       phone: req.body.phone,
     }),
     req.body.password,
@@ -69,6 +69,7 @@ router.post("/signup", (req, res, next) => {
 router.post("/login", passport.authenticate("local"), (req, res, next) => {
   console.log(req.body);
   const token = getToken({ _id: req.user._id });
+
   const refreshToken = getRefreshToken({ _id: req.user._id });
   User.findById(req.user._id)
     .then((user) => {
