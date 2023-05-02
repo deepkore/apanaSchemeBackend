@@ -3,31 +3,7 @@ const Schema = mongoose.Schema;
 
 const passportLocalMongoose = require("passport-local-mongoose");
 
-const Session = new Schema({
-  refreshToken: {
-    type: String,
-    default: "",
-    required: true,
-  },
-});
-
-const User = new Schema({
-  Name: {
-    type: String,
-    default: "",
-    required: true,
-    message: "enter name",
-  },
-  email: {
-    type: String,
-    default: "",
-    required: true,
-    message: "enter email",
-  },
-  phone: {
-    type: String,
-    default: "",
-  },
+const schema = new Schema({
   gender: {
     type: String,
     default: "",
@@ -72,19 +48,4 @@ const User = new Schema({
     type: String,
     default: "",
   },
-  refreshToken: {
-    type: [Session],
-  },
 });
-
-//Remove refreshToken from the response
-User.set("toJSON", {
-  transform: function (doc, ret, options) {
-    delete ret.refreshToken;
-    return ret;
-  },
-});
-
-User.plugin(passportLocalMongoose);
-
-module.exports = mongoose.model("User", User);
