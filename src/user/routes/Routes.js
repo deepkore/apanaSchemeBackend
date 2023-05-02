@@ -9,12 +9,7 @@ const {
   getRefreshToken,
   verifyUser,
 } = require("../../authen/authenticate");
-const {
-  getToken,
-  COOKIE_OPTIONS,
-  getRefreshToken,
-  verifyUser,
-} = require("../../authen/authenticate");
+
 
 router.post("/signup", (req, res, next) => {
   // Verify that first name is not empty
