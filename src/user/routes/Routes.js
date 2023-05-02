@@ -9,12 +9,6 @@ const {
   getRefreshToken,
   verifyUser,
 } = require("../../authen/authenticate");
-const {
-  getToken,
-  COOKIE_OPTIONS,
-  getRefreshToken,
-  verifyUser,
-} = require("../../authen/authenticate");
 
 router.post("/signup", (req, res, next) => {
   // Verify that first name is not empty
@@ -86,7 +80,9 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ success: false, err: err });
+      res
+        .status(500)
+        .json({ message: "cannot find user name sign up", err: err });
     });
 });
 
