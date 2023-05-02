@@ -9,7 +9,12 @@ const {
   getRefreshToken,
   verifyUser,
 } = require("../../authen/authenticate");
-
+const {
+  getToken,
+  COOKIE_OPTIONS,
+  getRefreshToken,
+  verifyUser,
+} = require("../../authen/authenticate");
 
 router.post("/signup", (req, res, next) => {
   // Verify that first name is not empty
@@ -41,7 +46,7 @@ router.post("/signup", (req, res, next) => {
       } else {
         //    user.firstName = firstName;
         //  user.lastName = req.body.lastName;
-        console.log("user register");
+        console.log("user registered");
         const token = getToken({ _id: user._id });
         const refreshToken = getRefreshToken({ _id: user._id });
         user.refreshToken.push({ refreshToken });
@@ -76,7 +81,7 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
           res.status(200).json({ success: true, token });
         })
         .catch((err) => {
-          res.status(500).json({ success: false, err: err });
+          res.status(500).json({ message: "token not refreshed ", err: err });
         });
     })
     .catch((err) => {
