@@ -30,9 +30,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 //Add the client URL to the CORS policy
 
-const whitelist = process.env.WHITELISTED_DOMAINS
-  ? process.env.WHITELISTED_DOMAINS.split(",")
-  : [];
+const whitelist = ["http://localhost:3000", "https://apnascheme.netlify.app"];
 
 const corsOptions = {
   origin: function (origin, callback) {
