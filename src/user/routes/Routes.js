@@ -9,13 +9,18 @@ const {
   getRefreshToken,
   verifyUser,
 } = require("../../authen/authenticate");
+const {
+  getToken,
+  COOKIE_OPTIONS,
+  getRefreshToken,
+  verifyUser,
+} = require("../../authen/authenticate");
 
 router.post("/signup", (req, res, next) => {
   // Verify that first name is not empty
   const name = req.body.name;
   var nameMatch = req.body.email.match(/^([^@]*)@/);
   var username = nameMatch ? nameMatch[1] : null;
-  console.log(req.body);
 
   console.log(req.body);
   // if (!firstName) {
@@ -75,14 +80,12 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
           res.status(200).json({ success: true, token });
         })
         .catch((err) => {
-          res.status(500).json({ message: "token not refreshed ", err: err });
+          res.status(500).json({ success: false, err: err });
         });
     })
     .catch((err) => {
       console.log(err);
-      res
-        .status(500)
-        .json({ status: "cannot find user name sign up", err: err });
+      res.status(500).json({ success: false, err: err });
     });
 });
 
