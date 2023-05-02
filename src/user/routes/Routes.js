@@ -103,39 +103,25 @@ router.post("/login", passport.authenticate("local"), (req, res, next) => {
   console.log(req.body);
   const token = getToken({ _id: req.user._id });
   const refreshToken = getRefreshToken({ _id: req.user._id });
-  User.findById(req.user._id).then((user) => {
-    user.refreshToken.push({ refreshToken });
-    user
-      .save()
-      .then((user) => {
-        res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-        res.status(200).json({ success: true, token });
-      })
-      .catch((err) => {
-        res.status(500).json({ success: false, err: err });
-        console.log(req.body);
-        const token = getToken({ _id: req.user._id });
-        const refreshToken = getRefreshToken({ _id: req.user._id });
-        User.findById(req.user._id)
-          .then((user) => {
-            user.refreshToken.push({ refreshToken });
-            user
-              .save()
-              .then((user) => {
-                res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
-                res.status(200).json({ success: true, token });
-              })
-              .catch((err) => {
-                res.status(500).json({ success: false, err: err });
-              });
-          })
-          .catch((err) => {
-            console.log(err);
-            res.status(500).json({ success: false, err: err });
-          });
-      });
-    res.status(500).json({ success: false, err: err });
-  });
+  User.findById(req.user._id)
+    .then((user) => {
+      user.refreshToken.push({ refreshToken });
+      user
+        .save()
+        .then((user) => {
+          res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
+          res.status(200).json({ success: true, token });
+        })
+        .catch((err) => {
+          res.status(500).json({ message: "token not refreshed ", err: err });
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(500)
+        .json({ status: "cannot find user name sign up", err: err });
+    });
 });
 
 router.get("/logout", verifyUser, (req, res, next) => {
