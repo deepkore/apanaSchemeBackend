@@ -12,7 +12,7 @@ const Session = new Schema({
 });
 
 const User = new Schema({
-  Name: {
+  name: {
     type: String,
     default: "",
     required: true,
