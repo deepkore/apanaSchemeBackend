@@ -62,7 +62,7 @@ app.get("/", function (req, res) {
 
 app.listen(port, (err) => {
   if (err) {
-    console.error(err);
+    console.errovr(err);
   } else {
     console.log("server running at http://localhost:", port);
   }
