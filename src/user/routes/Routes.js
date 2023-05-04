@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const passport = require("passport");
+const app = express();
 
 const {
   getToken,
@@ -15,15 +16,6 @@ router.post("/signup", (req, res, next) => {
   const name = req.body.name;
   var nameMatch = req.body.email.match(/^([^@]*)@/);
   var username = nameMatch ? nameMatch[1] : null;
-
-  console.log(req.body);
-  // if (!firstName) {
-  //   res.statusCode = 500;
-  //   res.send({
-  //     name: "FirstNameError",
-  //     message: "The first name is required",
-  //   });
-  // } else {
   User.register(
     new User({
       username: username,
@@ -34,7 +26,7 @@ router.post("/signup", (req, res, next) => {
     req.body.password,
     (err, user) => {
       console.log(err);
-      console.log(user);
+      // console.log(user);
       if (err) {
         res.status(500).json({ status: "not registered", err: err });
       } else {
@@ -52,16 +44,33 @@ router.post("/signup", (req, res, next) => {
           } else {
             res.cookie("refreshToken", refreshToken, COOKIE_OPTIONS);
             res.status(200).json({ success: true, token: token });
+            app.post("/filterform", (req, res) => {
+              console.log("fill form");
+            });
           }
-          //  res.redirect("/forms");
         });
       }
     }
   );
 });
+router.post("/fiterform", (req, res) => {
+  console.log(req.body);
+  const token = getToken({ _id: req.user._id });
+
+  User.updateOne(
+    { _id: req.user._id },
+    {
+      $set: {
+        gender: req.body.gender,
+        martialStatus: req.body.martialStatus,
+        state: req.body.state,
+      },
+    }
+  );
+});
 
 router.post("/login", passport.authenticate("local"), (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   const token = getToken({ _id: req.user._id });
 
   const refreshToken = getRefreshToken({ _id: req.user._id });

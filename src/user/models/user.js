@@ -27,6 +27,8 @@ const User = new Schema({
   phone: {
     type: String,
     default: "",
+    required: true,
+    message: "enter phone",
   },
   gender: {
     type: String,
